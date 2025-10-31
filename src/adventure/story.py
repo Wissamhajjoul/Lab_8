@@ -31,13 +31,14 @@ def right_path(event):
     return "You walk right. " + event
 
 if __name__ == "__main__":
-    events = read_events_from_file('events.txt')
+    events = read_events_from_file("events.txt")
 
     tell("You wake up in a dark forest. You can go left or right.")
     while True:
         choice = ask("Which direction do you choose? (left/right/exit): ")
         choice = choice.strip().lower()
-        if choice == 'exit':
+        if choice == "exit":
+            tell("Thanks for playing! Goodbye, traveler! 👋")
             break
 
         tell(step(choice, events))
