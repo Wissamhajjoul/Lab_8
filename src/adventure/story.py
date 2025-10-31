@@ -1,17 +1,24 @@
 from adventure.utils import read_events_from_file
 import random
+from rich.console import Console
+from rich.prompt import Prompt
 
-default_message = "You stand still, unsure what to do. The forest swallows you."
+console = Console()
+
+def tell(text: str) -> None:
+    console.print(text)
+
+def ask(prompt: str) -> str:
+    return Prompt.ask(f"[bold cyan]{prompt}[/]")
 
 def step(choice: str, events):
     random_event = random.choice(events)
-
     if choice == "left":
         return left_path(random_event)
     elif choice == "right":
         return right_path(random_event)
     else:
-        return default_message
+        return "You stand still, unsure what to do. The forest swallows you."
 
 def left_path(event):
     return "You walk left. " + event
@@ -21,12 +28,11 @@ def right_path(event):
 
 if __name__ == "__main__":
     events = read_events_from_file('events.txt')
-
-    print("You wake up in a dark forest. You can go left or right.")
+    tell("You wake up in a dark forest. You can go left or right.")
     while True:
-        choice = input("Which direction do you choose? (left/right/exit): ")
+        choice = ask("Which direction do you choose? (left/right/exit): ")
         choice = choice.strip().lower()
         if choice == 'exit':
+            tell("Thanks for playing! Goodbye, traveler! 👋")
             break
-        
-        print(step(choice, events))
+        tell(step(choice, events))
